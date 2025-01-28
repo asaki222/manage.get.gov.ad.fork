@@ -37,7 +37,6 @@ on:
           - ab
           - rjm
           - dk
-
 jobs:
     reset-db:
     runs-on: ubuntu-latest
