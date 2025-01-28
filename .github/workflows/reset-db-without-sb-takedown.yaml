@@ -39,7 +39,7 @@ on:
           - dk
 
 jobs:
-  reset-db:
+    reset-db:
     runs-on: ubuntu-latest
     env:
       CF_USERNAME: CF_${{ github.event.inputs.environment }}_USERNAME
