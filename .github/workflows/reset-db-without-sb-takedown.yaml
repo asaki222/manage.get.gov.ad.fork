@@ -59,15 +59,7 @@ jobs:
         cf_password: ${{ secrets[env.CF_PASSWORD] }}
         cf_org: cisa-dotgov
         cf_space: ${{ github.event.inputs.environment }}
-        cf_command: "cf unbind-service getgov-${{ github.event.inputs.environment }} getgov-${{ github.event.inputs.environment }}-database"
-    - name: Recreate the service
-      uses: cloud-gov/cg-cli-tools@main
-      with:
-        cf_username: ${{ secrets[env.CF_USERNAME] }}
-        cf_password: ${{ secrets[env.CF_PASSWORD] }}
-        cf_org: cisa-dotgov
-        cf_space: ${{ github.event.inputs.environment }}
-        cf_command: "cf create-service aws-rds micro-psql getgov-${{ github.event.inputs.environment }} getgov-${{ github.event.inputs.environment }}-database"
+        cf_command: "cf delete-service getgov-${{ github.event.inputs.environment }}-database"
     - name: Recreate the service
       uses: cloud-gov/cg-cli-tools@main
       with:
@@ -100,10 +92,11 @@ jobs:
         cf_org: cisa-dotgov
         cf_space: ${{ github.event.inputs.environment }}
         cf_command: "cf bind-service getgov-env getgov-env-${{ github.event.inputs.environment }}"
-  # -name: Wait for the above command to finish
-  #           with:
-  #           cf_username: ${{ secrets[env.CF_USERNAME] }}
-  #           cf_password: ${{ secrets[env.CF_PASSWORD] }}
-  #           cf_org: cisa-dotgov
-  #           cf_space: ${{ github.event.inputs.environment }}
-  #           cf_command:
+    - name: Wait for the above command to finish
+      uses: cloud-gov/cg-cli-tools@main
+      with:
+        cf_username: ${{ secrets[env.CF_USERNAME] }}
+        cf_password: ${{ secrets[env.CF_PASSWORD] }}
+        cf_org: cisa-dotgov
+        cf_space: ${{ github.event.inputs.environment }}
+        cf_command:
