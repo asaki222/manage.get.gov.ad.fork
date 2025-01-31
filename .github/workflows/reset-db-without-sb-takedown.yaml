@@ -42,8 +42,8 @@ jobs:
   reset-db:
     runs-on: ubuntu-latest
     env:
-      CF_USERNAME: CF_${{ github.event.inputs.environment }}_USERNAME
-      CF_PASSWORD: CF_${{ github.event.inputs.environment }}_PASSWORD
+      CF_USERNAME: ${{ secrets.CF_rh_USERNAME }}
+      CF_PASSWORD: ${{ secrets.CF_rh_PASSWORD}}
       DESTINATION_ENVIRONMENT: ${{ github.event.inputs.environment}}
     steps:
     - name: Reset DB Without Sandbox Takedown
