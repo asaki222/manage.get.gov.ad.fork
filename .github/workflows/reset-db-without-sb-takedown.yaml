@@ -47,6 +47,9 @@ jobs:
       DESTINATION_ENVIRONMENT: ${{ github.event.inputs.environment}}
     steps:
     - name: Reset DB Without Sandbox Takedown
+      with:
+        cf_username: ${{ secrets[env.CF_RH_USERNAME] }}
+        cf_password: ${{ secrets[env.CF_RH_PASSWORD] }}
       run: |
         # install cf cli and other tools
          wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cli.cloudfoundry.org.gpg
@@ -55,8 +58,8 @@ jobs:
          sudo apt-get update
          sudo apt-get install cf8-cli
          echo "INCOMING CREDS"
-         echo "$CF_PASSWORD"
-         echo "$CF_USERNAME"
+         echo "$cf_password"
+         echo "$cf_username"
          echo $DESTINATION_ENVIRONMENT
          echo getgov-$DESTINATION_ENVIRONMENT-database
          cf api api.fr.cloud.gov
