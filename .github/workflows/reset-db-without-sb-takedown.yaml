@@ -65,9 +65,9 @@ jobs:
          #unbind the service
          cf unbind-service getgov-$DESTINATION_ENVIRONMENT getgov-$DESTINATION_ENVIRONMENT-database
          #delete the service key
-         cf delete-service-key getgov-$DESTINATION_ENVIRONMENT-database SERVICE_CONNECT 
+         yes Y | cf delete-service-key getgov-$DESTINATION_ENVIRONMENT-database SERVICE_CONNECT 
          #delete the service
-         cf delete-service getgov-$DESTINATION_ENVIRONMENT-database
+         yes Y | cf delete-service getgov-$DESTINATION_ENVIRONMENT-database
          #create it again
          cf create-service aws-rds micro-psql getgov-$DESTINATION_ENVIRONMENT-database
          # wait for it be created (up to 5 mins)
