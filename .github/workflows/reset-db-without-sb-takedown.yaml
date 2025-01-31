@@ -57,9 +57,12 @@ jobs:
          echo "INCOMING CREDS"
          echo "$CF_PASSWORD"
          echo "$CF_USERNAME"
+         echo $DESTINATION_ENVIRONMENT
+         echo getgov-$DESTINATION_ENVIRONMENT-database
          cf api api.fr.cloud.gov
          cf auth "$CF_USERNAME" "$CF_PASSWORD"
          cf target -o cisa-dotgov -s $DESTINATION_ENVIRONMENT   
+
 
 
          #unbind the service
