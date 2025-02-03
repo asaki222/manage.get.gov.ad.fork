@@ -11,8 +11,6 @@ on:
         type: choice
         description: Which environment should we flush and re-load data for?
         options:
-        - staging
-        - development
         - el
         - ad
         - ms
