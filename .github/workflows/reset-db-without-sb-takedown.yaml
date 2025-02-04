@@ -85,7 +85,6 @@ jobs:
          #create the cache table and run migrations
          cf run-task getgov-$DESTINATION_ENVIRONMENT --command 'python manage.py createcachetable' --name createcachetable
          cf run-task getgov-$DESTINATION_ENVIRONMENT --command 'python manage.py migrate' --name migrate
-         sleep 5
          #check that your cloud.gov logs show this is done before you run the following command (or be like me and you have to run the command again because you were impatient. Running this before the migrate finishes will cause an error)
          #load fixtures
-         cf run-task getgov-$DESTINATION_ENVIRONMENT --command 'python manage.py load' --name loaddata
+         cf run-task getgov-$DESTINATION_ENVIRONMENT --wait  --command 'python manage.py load' --name loaddata
