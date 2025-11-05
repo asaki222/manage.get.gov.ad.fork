@@ -11,6 +11,9 @@ on:
         type: 'choice'
         options:
           - backup
+          - ap
+          - cw
+          - testdb
           - acadia
           - glacier
           - olympic
@@ -19,7 +22,6 @@ on:
           - potato
           - product
           - meoward
-          - bob
           - hotgov
           - litterbox
           - aa
@@ -35,8 +37,8 @@ jobs:
   load-fixtures:
     runs-on: ubuntu-latest
     env:
-      CF_USERNAME: ${{ github.event.inputs.environment }}USERNAME
-      CF_PASSWORD: ${{ github.event.inputs.environment }}PASSWORD
+      CF_USERNAME: CF_${{ github.event.inputs.environment }}_USERNAME
+      CF_PASSWORD: CF_${{ github.event.inputs.environment }}_PASSWORD
     steps:
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
       - name: Load fake data for ${{ github.event.inputs.environment }}

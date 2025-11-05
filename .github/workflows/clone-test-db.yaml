@@ -36,7 +36,7 @@ jobs:
       CF_USERNAME: CF_${{ github.event.inputs.environment }}_USERNAME
       CF_PASSWORD: CF_${{ github.event.inputs.environment }}_PASSWORD
       DESTINATION_ENVIRONMENT: ${{ github.event.inputs.environment}}
-      SOURCE_ENVIRONMENT: test_db
+      SOURCE_ENVIRONMENT: testdb
     steps: 
         - name: Install CF CLI and cg-manage-rds
           run: | 
@@ -48,6 +48,7 @@ jobs:
             
             # install cg-manage-rds tool
             pip install git+https://github.com/cloud-gov/cg-manage-rds.git
+        
         - name: Clone Test Database
           env:
             cf_username: ${{ secrets[env.CF_USERNAME] }}
@@ -58,18 +59,13 @@ jobs:
             cf auth "$cf_username" "$cf_password"
             cf target -o cisa-dotgov -s $DESTINATION_ENVIRONMENT
             
+            # share the target db with the source space
+            cf share-service getgov-$DESTINATION_ENVIRONMENT-database -s $SOURCE_ENVIRONMENT
+           
             # clone from source to destination
             cf target -s $SOURCE_ENVIRONMENT
             cg-manage-rds clone getgov-$SOURCE_ENVIRONMENT-database getgov-$DESTINATION_ENVIRONMENT-database
-        
-        - name: Load Fixtures
-          uses: cloud-gov/cg-cli-tools@main
-          with:
-            cf_username: ${{ secrets[env.CF_USERNAME] }}
-            cf_password: ${{ secrets[env.CF_PASSWORD] }}
-            cf_org: cisa-dotgov
-            cf_space: ${{ env.DESTINATION_ENVIRONMENT }}
-            cf_command: "run-task getgov-${{ env.DESTINATION_ENVIRONMENT }} --command 'python manage.py load' --name fixtures"
+
 
         - name: Cleanup
           if: always()
